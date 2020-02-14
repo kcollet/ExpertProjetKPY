@@ -1,0 +1,7 @@
+// Joueur : IO, communication socket, Jeu
+// Serveur : Thread
+// Socket1 & Socket2
+// Classe lien entre socket 1 & socket 2
+// Classe règle
+// Classe objet qui gère le message echangé entre les joueurs...
+
