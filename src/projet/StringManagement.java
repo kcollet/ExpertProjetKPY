@@ -2,8 +2,6 @@ package projet;
 
 import java.util.Random;
 import java.util.Scanner;
-import java.util.Arrays;
-
 
 public class StringManagement {
 	
@@ -34,6 +32,8 @@ public class StringManagement {
 		for (int i = 0; i < char_to_delete; i++)
 		{
 			int randomChar = random.nextInt(string_size- i);
+			
+			//Debug
 			System.out.println(randomChar);
 			System.out.println(chars);
 			System.out.println("i = " + i);
@@ -43,9 +43,7 @@ public class StringManagement {
 			} else {
 				chars[randomChar] = ' '; // Supprime les lettres --> Corriger la fonction pour qu'un même indice
 				//ne puisse pas être selectionner 2x. Faire le truc a l'envers --> Garder 70% des characters.
-]
 			}
-		
 		
 		}
 		
