@@ -16,19 +16,19 @@ public class Choisir {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();//objet qui va permettre de build le parser d'xml
 		
 		try {
-		String retour = "0";	
-		DocumentBuilder builder = factory.newDocumentBuilder();//objet qui va servir
-		File fichierLexique = new File ("Lexique.xml");// fichier xml simple un mot/noeud
-		Document xml=builder.parse(fichierLexique);// converti le fichier en arbre exploitable par java
-		Element racine = xml.getDocumentElement();//récupère la racine de l'arbre
-		XPathFactory xpf = XPathFactory.newInstance();//création de l'objet qui permettra de créer l'instance chargée des requêtes xpath
-		XPath path = xpf.newXPath();//la classe XPath permet d'utiliser le langage Xpath à proprement parler
-		int nombreDeMots = Integer.parseInt(path.evaluate("@nbMots",racine));//donne le total de mot présents dans le lexique
-		Random generateur = new Random ();
-		int rang = generateur.nextInt(nombreDeMots) + 1;
-		System.out.println(rang);
-		retour = path.evaluate("(lexicalEntry["+ rang +"]/@id)", racine); // donne le rang-ième mot du lexique
-		return retour;
+			String retour = "0";
+			DocumentBuilder builder = factory.newDocumentBuilder();//objet qui va servir
+			File fichierLexique = new File ("Lexique.xml");// fichier xml simple un mot/noeud
+			Document xml=builder.parse(fichierLexique);// converti le fichier en arbre exploitable par java
+			Element racine = xml.getDocumentElement();//récupère la racine de l'arbre
+			XPathFactory xpf = XPathFactory.newInstance();//création de l'objet qui permettra de créer l'instance chargée des requêtes xpath
+			XPath path = xpf.newXPath();//la classe XPath permet d'utiliser le langage Xpath à proprement parler
+			int nombreDeMots = Integer.parseInt(path.evaluate("@nbMots",racine));//donne le total de mot présents dans le lexique
+			Random generateur = new Random ();
+			int rang = generateur.nextInt(nombreDeMots) + 1;
+			System.out.println(rang);
+			retour = path.evaluate("(lexicalEntry["+ rang +"]/@id)", racine); // donne le rang-ième mot du lexique
+			return retour;
 		
 		
 		

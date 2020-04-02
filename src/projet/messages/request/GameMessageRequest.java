@@ -9,7 +9,8 @@ public class GameMessageRequest implements Serializable {
         return message;
     }
 
-    public void setMessage(String message) {
+    public GameMessageRequest setMessage(String message) {
         this.message = message;
+        return this;
     }
 }
