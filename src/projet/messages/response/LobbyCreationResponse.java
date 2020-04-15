@@ -12,4 +12,7 @@ public class LobbyCreationResponse implements Serializable {
     public void setLobbyName(String lobbyName) {
         this.lobbyName = lobbyName;
     }
+    public LobbyCreationResponse (String nomDeLaSalle) {
+    	setLobbyName(nomDeLaSalle);
+    }
 }
