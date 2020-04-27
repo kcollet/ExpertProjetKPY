@@ -1,4 +1,4 @@
-package serveur;
+package projet.serveur;
 import javax.xml.parsers.*;
 
 import javax.xml.xpath.*;

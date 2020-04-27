@@ -12,4 +12,5 @@ public class LobbyDestructionRequest implements Serializable {
     public void setLobbyName(String lobbyName) {
         this.lobbyName = lobbyName;
     }
+   
 }

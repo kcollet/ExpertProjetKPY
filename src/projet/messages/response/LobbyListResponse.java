@@ -13,4 +13,8 @@ public class LobbyListResponse implements Serializable {
     public List<String> getLobbys() {
         return lobbys;
     }
+    public LobbyListResponse (List<String> l){
+    	setLobbys(l);
+
+    }
 }

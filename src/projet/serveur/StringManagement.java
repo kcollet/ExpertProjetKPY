@@ -1,4 +1,4 @@
-package projet;
+package projet.serveur;
 import java.util.Random;
 import java.util.Scanner;
 

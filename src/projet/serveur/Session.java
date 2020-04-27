@@ -9,7 +9,7 @@ public class Session implements Runnable {
 	private Salle salle;
 	private Thread lireMessage;
 	private ObjectInputStream entree;
-	private PrintWriter sortie;
+	private ObjectOutputStream sortie;
 	private int numeroDeSession;
 	private Socket socket;
 	private Thread thread;
@@ -26,7 +26,8 @@ public class Session implements Runnable {
 	//code repris en partie de la page https://defaut.developpez.com/tutoriel/java/serveur/multithread/
 	public Session (Socket socket) 
 	{	this.socket = socket;
-		thread = new Thread ();
+		sortie = new ObjectOutputStream (socket.getOutputStream());
+		thread = new Thread (this);
 		thread.start();
 			}
 		
@@ -34,7 +35,7 @@ public class Session implements Runnable {
 	           try {
 	        	  
 	        	   Object msg ;
-	               entree = new ObjectInputStream(socket.getInputStream());
+	               entree = (socket.getInputStream());
 	              msg = entree.readObject();
 	              //tant que le client est connecté
 	              while(msg!=null){

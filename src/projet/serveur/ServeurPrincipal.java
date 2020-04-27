@@ -1,4 +1,4 @@
-package serveur;
+package projet.serveur;
 import java.net.ServerSocket;
 //code repris en partie de la page https://defaut.developpez.com/tutoriel/java/serveur/multithread/
 public class ServeurPrincipal {
