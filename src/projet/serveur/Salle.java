@@ -16,13 +16,7 @@ public static Salle getInstance(String nom)	throws NomInvalide {
 	throw new NomInvalide (nom);		
 
 }
-public static void TenterDeDetruireSalle (String nom) {
-	try{
-	getInstance(nom).detruire();}
-	catch (NomInvalide n) {
 
-	}
-}
 public static List<String> getListe(){
 	retour = new List<String>();
 	Liste.forEach (s -> retour.add(s.getNom()));
@@ -38,6 +32,7 @@ public Salle (Session createur) {
 	Liste.add(this);
 	nbDeSalles ++;
 	nomDeLaSalle = "Salle numero " + nbDeSalles;
+	createur.reponse(new LobbyCreationResponse(nomDeLaSalle));
 	
 }
 public void AjouterJoueur (Session joueur) {
@@ -45,9 +40,22 @@ public void AjouterJoueur (Session joueur) {
 	new Partie (this);
 	
 }
-public void Detruire (){
+public void detruire (){
+	if (sessions[0].isNotNull()){
+		sessions[0].setSalle(null);
+		sessions[0].reponse(new LobbyDestructionResponse(nomDeLaSalle));
 
+	}
+	if (sessions[1].isNotNull()){
+		sessions[1].setSalle(null);
+		sessions[1].reponse(new LobbyDestructionResponse(nomDeLaSalle));
+
+	}
+	
 	Liste.remove(this);
+	nbDeSalles -- ;
+	nomDeLaSalle = null;
+
 }
 public String getNom() {
 	return nomDeLaSalle;

@@ -1,4 +1,4 @@
-package serveur;
+package projet.serveur;
 
 import java.net.Socket;
 import java.io.*;
@@ -14,10 +14,25 @@ public class Session implements Runnable {
 	private Socket socket;
 	private Thread thread;
 	
-	private void match (Object msg) { //fonction qui évalue la nature de la requête est agit en conséquence
+	private void match (Object req) { 
+	try{//fonction qui évalue la nature de la requête est agit en conséquence
 		switch (msg.getClass().getName()) {
 		case "LobbyCreationRequest" : new Salle (this);
-		}
+		case "LobbyDestructionRequest" : salle.TenterDeDetruireSalle ();
+		case "LobbyListRequest" : sortie.writeObject (new LobbyListRequest(Salle.getListe())); //getListe renvoie  List<String>
+		case "LobbyJoinRequest" : Salle.nouveauDans(this,(LobbyJoinRequest)req.getLobbyName());
+		default : /*erreur requete invalide */;
+		}}
+	catch (NomInvalide n){//erreur via n.message()
+
+	}	
+	catch (Exception e){
+		//
+	}
+	}
+
+	public void reponse (Object rep){
+		sortie.writeObject (rep);
 	}
 
 	public void setSalle (Salle salle) {

@@ -13,6 +13,8 @@ import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
+
 
 
 // A simple EchoServer class, just here for testing on my own if my Main Client can send requests,
@@ -54,7 +56,7 @@ public class EchoServer {
     }
 
     private void onLobbyCreationRequest(LobbyCreationRequest request){
-        LobbyCreationResponse response = new LobbyCreationResponse();
+        LobbyCreationResponse response = new LobbyCreationResponse("ok");
         response.setLobbyName(request.getLobbyName());
         send(response);
     }
@@ -78,7 +80,7 @@ public class EchoServer {
     }
 
     private void onLobbyListRequest(LobbyListRequest request){
-        LobbyListResponse response = new LobbyListResponse();
+        LobbyListResponse response = new LobbyListResponse(new ArrayList<String>());
         response.setLobbys(Arrays.asList("PGM only", "4 vs 4 noobs only", "no scout rush plz", "one for all sion vs soraka"));
         send(response);
     }

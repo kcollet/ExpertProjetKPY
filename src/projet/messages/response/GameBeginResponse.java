@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class GameBeginResponse implements Serializable {
     private boolean master;
-    private String keyword;
+    private String keyword; //keyword mot à deviner ?
 
     public boolean isMaster() {
         return master;
@@ -20,5 +20,9 @@ public class GameBeginResponse implements Serializable {
 
     public void setKeyword(String keyword) {
         this.keyword = keyword;
+    }
+    public GameBeginResponse(boolean m, String kw){
+        setMaster(m);
+        setKeyWord(kw);
     }
 }

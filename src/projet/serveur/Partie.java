@@ -19,6 +19,9 @@ import java.util.Random;
 			}
 			this.salle = salle;
 			motADeviner = Choisir.choisir(); 
+			maitre.reponse (new GameBeginResponse (true,motADeviner));
+			chercheur.reponse(new GameBeginResponse(false,motADeviner));
+
 			
 			
 			

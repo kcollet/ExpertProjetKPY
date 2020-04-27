@@ -12,4 +12,8 @@ public class LobbyDestructionResponse implements Serializable {
     public void setLobbyName(String lobbyName) {
         this.lobbyName = lobbyName;
     }
+
+    public LobbyDestructionResponse (String n){
+    	setLobbyName (n);
+    }
 }
