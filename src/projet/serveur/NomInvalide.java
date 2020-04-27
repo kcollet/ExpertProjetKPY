@@ -1,4 +1,4 @@
-package projet.serveur
+package projet.serveur;
 class NomInvalide extends Exception {
 	String nomInvalide;
 	public NomInvalide (String n){

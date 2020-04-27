@@ -21,8 +21,9 @@ public class GameBeginResponse implements Serializable {
     public void setKeyword(String keyword) {
         this.keyword = keyword;
     }
+
     public GameBeginResponse(boolean m, String kw){
         setMaster(m);
-        setKeyWord(kw);
+        setKeyword(kw);
     }
 }
