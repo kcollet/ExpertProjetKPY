@@ -5,7 +5,7 @@ import projet.serveur.exceptions.NomInvalide;
 /* COMMENTAIRE MULTILIGNE POUR TESTER UN TRUC */
 
 public class Salle {
-	private static Vector<Salle> liste;
+	private static Vector<Salle> liste = new Vector<Salle>();
 	private static int nbSallesCrees = 0;
 	private String nomDeLaSalle;
 	private Vector<Session> sessions;
@@ -39,6 +39,7 @@ public static Vector<String> getListe(){
 			retour.add(s.getNom());
 		
 	}
+	System.out.println("appel de Salle.getListe()");
 	return retour ;
 }
 
@@ -56,12 +57,13 @@ public Salle (Session createur) {
 	
 }
 public synchronized void ajouterJoueur (Session joueur)  {
-	if (sallePleine == false) {
+	if (sallePleine == false & joueur.getSalle()!= this) {
 	sessions.add(joueur);
 	if (sessions.size()== capacite)
-		sallePleine = true;}
+		sallePleine = true;
+		joueur.reponse(new LobbyJoinResponse(this.getNom()));}
 	else 
-		joueur.reponse(new Error ("La salle est pleine"));}
+		joueur.reponse(new Error ("La salle est pleine ou vous êtes déjà dedans"));}
 	
 	
 	

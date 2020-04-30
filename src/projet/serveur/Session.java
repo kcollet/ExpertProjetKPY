@@ -44,11 +44,11 @@ public class Session implements Runnable {
 		
 		
 	}
-
+	public Salle getSalle () {return salle;}
 	public void setSalle (Salle salle) {
 		this.salle = salle;
 	}
-	public synchronized void quitterSalle () {
+	public synchronized void quitterSalle () { // à ne pas appeler 
 		
 		reponse(new LobbyDestructionResponse("Vous avez quitté la salle : " + salle.getNom() + " ou celle-ci a été détruite"));
 		salle = null;

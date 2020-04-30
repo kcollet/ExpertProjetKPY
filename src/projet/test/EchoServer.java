@@ -10,9 +10,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.ByteBuffer;
+//import java.nio.ByteBuffer;
 import java.util.Arrays;
-import java.util.List;
+//import java.util.List;
 import java.util.ArrayList;
 
 
@@ -37,7 +37,7 @@ public class EchoServer {
     // Request Handlers
 
     private void onGameBeginRequest(GameBeginRequest request){
-        GameBeginResponse response = new GameBeginResponse();
+        GameBeginResponse response = new GameBeginResponse(false, null);
 
         if (Math.random() > .5){
             // MASTER
@@ -56,14 +56,13 @@ public class EchoServer {
     }
 
     private void onLobbyCreationRequest(LobbyCreationRequest request){
-        LobbyCreationResponse response = new LobbyCreationResponse("ok");
-        response.setLobbyName(request.getLobbyName());
+        LobbyCreationResponse response = new LobbyCreationResponse(request.getLobbyName());
         send(response);
     }
 
     private void onLobbyDestructionRequest(LobbyDestructionRequest request){
-        LobbyDestructionResponse response = new LobbyDestructionResponse();
-        response.setLobbyName(request.getLobbyName());
+        LobbyDestructionResponse response = new LobbyDestructionResponse(request.getLobbyName());
+    
         send(response);
     }
 

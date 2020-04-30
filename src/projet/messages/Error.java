@@ -12,4 +12,10 @@ public class Error implements Serializable {
     public void setMessage(String message) {
         this.message = message;
     }
+    public Error () {
+    	setMessage ("Erreur");
+    }
+    public Error (String m) {
+    	setMessage (m);
+    }
 }
