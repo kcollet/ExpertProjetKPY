@@ -1,59 +1,81 @@
 package projet.serveur;
-import java.util.ArrayList;
+import java.util.Vector;
+import projet.messages.response.*;
+import projet.serveur.exceptions.NomInvalide;
+/* COMMENTAIRE MULTILIGNE POUR TESTER UN TRUC */
 
 public class Salle {
-	private static int nbDeSalles = 0;
-	private static ArrayList<Salle> Liste;
+	private static Vector<Salle> liste;
+	private static int nbSallesCrees = 0;
 	private String nomDeLaSalle;
-	private Session [] sessions = {null,null};
+	private Vector<Session> sessions;
+	private int capacite = 2;
+	private boolean sallePleine = false; 
+
+public static void nouveauDans (Session joueur, String nomDeSalle)  {
+	try {
+		getInstance (nomDeSalle).ajouterJoueur (joueur);
+	}
+	catch (NomInvalide n) {
+		joueur.reponse(new Error (n.getMessage()));
+	}
+}	
 public static Salle getInstance(String nom)	throws NomInvalide {
-	for (int i = 0 ; i <= nbDeSalles ; i++) {
 	
-		if (Liste.get(i).getNom() == nom) 
-			return Liste.get(i);
-			}
-	//procedure d'erreur
+	for (Salle s : liste) {
+		if (s.getNom()==nom)
+			return s;
+	}
 	throw new NomInvalide (nom);		
 
 }
 
-public static List<String> getListe(){
-	retour = new List<String>();
-	Liste.forEach (s -> retour.add(s.getNom()));
+public static Vector<String> getListe(){
+	Vector<String> retour = new Vector<String>();
+	for (Salle s : liste) {
+		if (s.sallePleine)
+			retour.add(s.getNom()+ " (salle pleine)");
+		else 
+			retour.add(s.getNom());
+		
+	}
 	return retour ;
 }
 
-public Session [] getSessions () {
+public Vector<Session> getSessions () {
 	return sessions;
 }
 public Salle (Session createur) {
-	sessions[0] = createur;
+	capacite = 2;
+	Vector<Session> sessions = new Vector<Session> (capacite);
+	sessions.add(createur);
 	createur.setSalle(this);
-	Liste.add(this);
-	nbDeSalles ++;
-	nomDeLaSalle = "Salle numero " + nbDeSalles;
+	liste.add(this);
+	nomDeLaSalle = "salle"+ (nbSallesCrees ++);  
 	createur.reponse(new LobbyCreationResponse(nomDeLaSalle));
 	
 }
-public void AjouterJoueur (Session joueur) {
-	sessions [1] = joueur;
-	new Partie (this);
+public synchronized void ajouterJoueur (Session joueur)  {
+	if (sallePleine == false) {
+	sessions.add(joueur);
+	if (sessions.size()== capacite)
+		sallePleine = true;}
+	else 
+		joueur.reponse(new Error ("La salle est pleine"));}
+	
+	
+	
+
+public synchronized void  retirerJoueur (Session joueur) {
+if (sessions.remove(joueur))
+	{joueur.quitterSalle();
+		}
+
 	
 }
-public void detruire (){
-	if (sessions[0].isNotNull()){
-		sessions[0].setSalle(null);
-		sessions[0].reponse(new LobbyDestructionResponse(nomDeLaSalle));
-
-	}
-	if (sessions[1].isNotNull()){
-		sessions[1].setSalle(null);
-		sessions[1].reponse(new LobbyDestructionResponse(nomDeLaSalle));
-
-	}
-	
-	Liste.remove(this);
-	nbDeSalles -- ;
+public synchronized void detruire (){
+	sessions.forEach(j->retirerJoueur(j));
+	liste.remove(this);
 	nomDeLaSalle = null;
 
 }

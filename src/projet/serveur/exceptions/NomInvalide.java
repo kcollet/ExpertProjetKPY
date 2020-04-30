@@ -1,10 +1,10 @@
-package projet.serveur;
-class NomInvalide extends Exception {
+package projet.serveur.exceptions;
+public class NomInvalide extends Exception {
 	String nomInvalide;
 	public NomInvalide (String n){
 		nomInvalide = n;
 	}
-	public String message (){
+	public String getMessage (){
 		return ("Le nom de salle : " + nomInvalide + " est incorrect");
 	}
 }

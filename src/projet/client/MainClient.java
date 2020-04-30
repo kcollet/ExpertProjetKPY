@@ -57,9 +57,9 @@ public class MainClient {
         commandManager.setDescription("say", "Commande par défaut.");
         commandManager.setDescription("start", "Se lance dans un lobby, démarre le partie.");
         commandManager.setDescription("lobby create <name>", "Rejoins le lobby <name>.");
-        commandManager.setDescription("lobby destroy <name>", "Détruit le lobby <name>.");
+        commandManager.setDescription("lobby destroy", "Détruit le lobby.");// peut-être plus tard "lobby destroy <name>", "Détruit le lobby <name>."
         commandManager.setDescription("lobby join <name>", "Rejoins le lobby <name>.");
-        commandManager.setDescription("lobby leave <name>", "Quitte le lobby <name>.");
+        commandManager.setDescription("lobby leave", "Quitte le lobby");//peut-être plus tard "lobby leave <name>", "Quitte le lobby <name>."
         commandManager.setDescription("lobby list", "Donne la liste des lobbys.");
     }
 
@@ -93,7 +93,7 @@ public class MainClient {
 
             case "destroy":
                 LobbyDestructionRequest destructionRequest = new LobbyDestructionRequest();
-                destructionRequest.setLobbyName(parser.getStringParameter(2));
+                //destructionRequest.setLobbyName(parser.getStringParameter(2)); les clients ne sont que dans une seule salle à la fois
                 send(destructionRequest);
                 break;
 
@@ -105,7 +105,7 @@ public class MainClient {
 
             case "leave":
                 LobbyLeaveRequest leaveRequest= new LobbyLeaveRequest();
-                leaveRequest.setLobbyName(parser.getStringParameter(2));
+                //leaveRequest.setLobbyName(parser.getStringParameter(2)); idem que plus haut
                 send(leaveRequest);
                 break;
 
