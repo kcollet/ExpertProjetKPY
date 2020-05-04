@@ -12,4 +12,7 @@ public class LobbyLeaveResponse implements Serializable {
     public void setLobbyName(String lobbyName) {
         this.lobbyName = lobbyName;
     }
+    public LobbyLeaveResponse (String nom) {
+    	lobbyName = nom;
+    }
 }

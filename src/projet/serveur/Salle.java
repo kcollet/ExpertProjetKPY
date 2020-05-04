@@ -11,19 +11,21 @@ public class Salle {
 	private Vector<Session> sessions;
 	private int capacite = 2;
 	private boolean sallePleine = false; 
+					Partie partie;
 
 public static void nouveauDans (Session joueur, String nomDeSalle)  {
 	try {
 		getInstance (nomDeSalle).ajouterJoueur (joueur);
 	}
 	catch (NomInvalide n) {
+		n.printStackTrace();
 		joueur.reponse(new Error (n.getMessage()));
 	}
 }	
 public static Salle getInstance(String nom)	throws NomInvalide {
-	
+	System.out.println("appel de getInstance("+ nom + ")");
 	for (Salle s : liste) {
-		if (s.getNom()==nom)
+		if (s.getNom().contentEquals (nom))
 			return s;
 	}
 	throw new NomInvalide (nom);		
@@ -34,10 +36,10 @@ public static Vector<String> getListe(){
 	Vector<String> retour = new Vector<String>();
 	for (Salle s : liste) {
 		if (s.sallePleine)
-			retour.add(s.getNom()+ " (salle pleine)");
+			retour.add(s.nomDeLaSalle+ " (salle pleine)");
 		else 
-			retour.add(s.getNom());
-		
+			retour.add(s.nomDeLaSalle);
+	
 	}
 	System.out.println("appel de Salle.getListe()");
 	return retour ;
@@ -48,9 +50,9 @@ public Vector<Session> getSessions () {
 }
 public Salle (Session createur) {
 	capacite = 2;
-	Vector<Session> sessions = new Vector<Session> (capacite);
+	sessions = new Vector<Session> ();
 	sessions.add(createur);
-	createur.setSalle(this);
+	createur.salle = this;
 	liste.add(this);
 	nomDeLaSalle = "salle"+ (nbSallesCrees ++);  
 	createur.reponse(new LobbyCreationResponse(nomDeLaSalle));
@@ -59,6 +61,7 @@ public Salle (Session createur) {
 public synchronized void ajouterJoueur (Session joueur)  {
 	if (sallePleine == false & joueur.getSalle()!= this) {
 	sessions.add(joueur);
+	joueur.salle = this; 
 	if (sessions.size()== capacite)
 		sallePleine = true;
 		joueur.reponse(new LobbyJoinResponse(this.getNom()));}
@@ -68,9 +71,11 @@ public synchronized void ajouterJoueur (Session joueur)  {
 	
 	
 
-public synchronized void  retirerJoueur (Session joueur) {
+public synchronized void  retirerJoueur (Session joueur) { //appelée dans detruire et dans Session.match()
+System.out.println("appel de retirerJoueur");
 if (sessions.remove(joueur))
-	{joueur.quitterSalle();
+	{joueur.reponse(new LobbyLeaveResponse(nomDeLaSalle));
+	joueur.salle = null;
 		}
 
 	
@@ -81,7 +86,14 @@ public synchronized void detruire (){
 	nomDeLaSalle = null;
 
 }
-public String getNom() {
+public synchronized void nouvellePartie() {
+	if (partie == null & sessions.size() >= 2)
+	partie = new Partie(this);
+	else 
+		System.out.println("pas de nouvelle partie");
+}
+
+public String getNom() { //un accesseur inutile
 	return nomDeLaSalle;
 	
 }

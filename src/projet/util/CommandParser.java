@@ -15,7 +15,7 @@ public class CommandParser {
         parameters.clear();
         for(String word : line.trim().split(" ")){
             if (!word.isEmpty() || !word.isBlank())
-                parameters.add(word);
+                parameters.add(word.replaceAll("\n",""));
         }
     }
 

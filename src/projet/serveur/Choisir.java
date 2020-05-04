@@ -18,7 +18,7 @@ public class Choisir {
 		try {
 			String retour = "0";
 			DocumentBuilder builder = factory.newDocumentBuilder();//objet qui va servir
-			File fichierLexique = new File ("Lexique.xml");// fichier xml simple un mot/noeud
+			File fichierLexique = new File ("bin/projet/serveur/Lexique.xml");// fichier xml simple un mot/noeud
 			Document xml=builder.parse(fichierLexique);// converti le fichier en arbre exploitable par java
 			Element racine = xml.getDocumentElement();//récupère la racine de l'arbre
 			XPathFactory xpf = XPathFactory.newInstance();//création de l'objet qui permettra de créer l'instance chargée des requêtes xpath

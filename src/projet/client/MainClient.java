@@ -2,6 +2,7 @@ package projet.client;
 
 import projet.messages.request.*;
 import projet.messages.response.*;
+import projet.messages.Error;
 import projet.util.CommandManager;
 import projet.util.CommandParser;
 
@@ -19,7 +20,7 @@ public class MainClient {
     private Socket socket;
     ObjectInputStream in;
     ObjectOutputStream out;
-    private boolean exiting = false;
+    	boolean exiting = false;
     CommandManager commandManager;
     CommandParser parser;
 
@@ -56,7 +57,7 @@ public class MainClient {
         commandManager.setDescription("exit", "Pas d'arguments, quitte le client.");
         commandManager.setDescription("say", "Commande par défaut.");
         commandManager.setDescription("start", "Se lance dans un lobby, démarre le partie.");
-        commandManager.setDescription("lobby create <name>", "Rejoins le lobby <name>.");
+        commandManager.setDescription("lobby create", "Cree un nouveau lobby");//le nom du lobby est défini par le serveur pour eviter l'homonymie
         commandManager.setDescription("lobby destroy", "Détruit le lobby.");// peut-être plus tard "lobby destroy <name>", "Détruit le lobby <name>."
         commandManager.setDescription("lobby join <name>", "Rejoins le lobby <name>.");
         commandManager.setDescription("lobby leave", "Quitte le lobby");//peut-être plus tard "lobby leave <name>", "Quitte le lobby <name>."
@@ -87,7 +88,6 @@ public class MainClient {
         switch (parser.getStringParameter(1)){
             case "create":
                 LobbyCreationRequest createRequest = new LobbyCreationRequest();
-                createRequest.setLobbyName(parser.getStringParameter(2));
                 send(createRequest);
                 break;
 
@@ -133,7 +133,7 @@ public class MainClient {
         if (response.isVictory()){
             System.out.println("Vous avez gagné !");
         } else{
-            System.out.println("Partie perdu...");
+            System.out.println("Partie perdue...");
         }
     }
 
@@ -168,25 +168,20 @@ public class MainClient {
     }
 
 
-    private void handleResponse(){
+    	void handleResponse(Object o){
     // A function that handle the server Response to the previous request by calling the appropriate function.
-
-        try {
-
-            Object o = in.readObject();
-
+       
             if (o instanceof GameBeginResponse) onGameBeginResponse((GameBeginResponse) o);
-            if (o instanceof GameEndResponse) onGameEndResponse((GameEndResponse) o);
-            if (o instanceof GameMessageResponse) onGameMessageResponse((GameMessageResponse) o);
-            if (o instanceof LobbyCreationResponse) onLobbyCreationResponse((LobbyCreationResponse) o);
-            if (o instanceof LobbyDestructionResponse) onLobbyDestructionResponse((LobbyDestructionResponse) o);
-            if (o instanceof LobbyJoinResponse) onLobbyJoinResponse((LobbyJoinResponse) o);
-            if (o instanceof LobbyLeaveResponse) onLobbyLeaveResponse((LobbyLeaveResponse) o);
-            if (o instanceof LobbyListResponse) onLobbyListResponse((LobbyListResponse) o);
+            else if (o instanceof GameEndResponse) onGameEndResponse((GameEndResponse) o);
+            else if (o instanceof GameMessageResponse) onGameMessageResponse((GameMessageResponse) o);
+            else if (o instanceof LobbyCreationResponse) onLobbyCreationResponse((LobbyCreationResponse) o);
+            else if (o instanceof LobbyDestructionResponse) onLobbyDestructionResponse((LobbyDestructionResponse) o);
+            else if (o instanceof LobbyJoinResponse) onLobbyJoinResponse((LobbyJoinResponse) o);
+            else if (o instanceof LobbyLeaveResponse) onLobbyLeaveResponse((LobbyLeaveResponse) o);
+            else if (o instanceof LobbyListResponse) onLobbyListResponse((LobbyListResponse) o);
+            else if (o instanceof Error) System.out.println ("Erreur: " + ((Error) o).getMessage());
 
-        } catch (IOException  | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+       
     }
 
 
@@ -216,10 +211,7 @@ public class MainClient {
                     line = "say " + line;
                 }
                 parser.parse(line);
-
-                if (commandManager.executeCommand(parser) && !exiting){
-                    handleResponse();
-                }
+                commandManager.executeCommand(parser);
             }
             catch (IOException e){
                 e.printStackTrace();
@@ -228,6 +220,8 @@ public class MainClient {
     }
 
     public static void main(String... args){
-        new MainClient().Run();
+    	MainClient client = new MainClient();
+    	new Recevoir (client).start();
+       client.Run();
     }
 }
