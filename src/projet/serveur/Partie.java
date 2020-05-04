@@ -82,7 +82,7 @@ import projet.messages.Error;
 				maitre.reponse(rep);
 			}
 			else {
-				maitre.reponse(new Error ("Attendez un indice avant de faire une proposition") );
+				chercheur.reponse(new Error ("Attendez un indice avant de faire une proposition") );
 			}
 		}
 			
