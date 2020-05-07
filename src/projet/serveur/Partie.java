@@ -31,7 +31,7 @@ import projet.messages.Error;
 			maitre.estEnPartie = true;
 			chercheur.estEnPartie = true;
 			maitre.reponse (new GameBeginResponse (true,motADeviner));
-			chercheur.reponse(new GameBeginResponse(false,motADeviner));}
+			chercheur.reponse(new GameBeginResponse(false,motADeviner));}//le mot à deviner est transmis au chercheur mais l'application client ne l'affiche pas
 
 			public synchronized void fin (boolean victoire) {
 				maitre.reponse(new GameEndResponse(victoire));

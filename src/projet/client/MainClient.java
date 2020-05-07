@@ -49,7 +49,7 @@ public class MainClient {
 
     private void InitCommands(){
         //Initialize the command map in command manager and also the descriptions map which holds commands descriptions.
-        commandManager.setCommand("exit", this::exitCommand);
+        //commandManager.setCommand("exit", this::exitCommand);
         commandManager.setCommand("say", this::sayCommand);
         commandManager.setCommand("start", this::gameBeginCommand);
         commandManager.setCommand("lobby", this::lobbyCommand);
@@ -68,9 +68,9 @@ public class MainClient {
 
     // Commands Methods
 
-    private void exitCommand(CommandParser parser){
+    /*private void exitCommand(CommandParser parser){
         exiting = true;
-    }
+    } //fonctionnalité non implémentée car cource de bug*/
 
     private void sayCommand(CommandParser parser){
         int param_numbers = parser.getParameterCount();
